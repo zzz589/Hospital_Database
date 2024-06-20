@@ -2,7 +2,7 @@
 
 ## 项目环境
 
-- 编程语言：python3.6 `<br>`
+- 编程语言：python3.12 `<br>`
 - web 框架：python flask `<br>`
 - 数据库：PostgreSQL `<br>`
 - 操作系统：mac
