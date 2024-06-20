@@ -1,0 +1,41 @@
+<!-- View option panel -->
+<!--挂号用户界面-->
+{% extends 'base.html' %} {% block content %}
+<h1>Welcome to the Hospital</h1>
+<hr align="left" width="800" size="5" color="#0000AA" />
+<br />
+<form action="/check_doctor" method="post">
+  <b>Check here to get more information of doctor: </b>
+  <input type="submit" value="click" />
+</form>
+<br />
+<style>
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: lightgray;
+    opacity: 1; /* Firefox */
+  }
+</style>
+
+<form action="/patient_insert" method="post">
+  <b>Patient ID: </b
+  ><input type="text" name="patient_id" placeholder="your id" /><br /><br />
+  <b>Patient Name: </b
+  ><input type="text" name="patient_name" placeholder="your name" /><br /><br />
+  <b>Patient Gender: </b
+  ><input type="text" name="patient_gender" placeholder="男/女" /><br /><br />
+  <b>Patient Condition: </b
+  ><input
+    type="text"
+    name="patient_condition"
+    placeholder="describe your situation"
+  /><br /><br />
+  <b>Doctor's ID: </b><input type="text" name="doctor_id" /><br /><br />
+  <b>Doctor's Name: </b><input type="text" name="doctor_name" /><br /><br />
+  <input type="submit" value="Submit" />
+</form>
+<hr align="left" width="800" size="5" color="#0000AA" />
+
+<br /><br /><br />
+
+{% endblock %}

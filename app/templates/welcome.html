@@ -1,0 +1,45 @@
+<!-- welcome panel -->
+<!-- show welcome information -->
+
+{% extends 'base.html' %} {% block content %}
+
+<div style="width: 1520px; text-align: center">
+  <h1>Welcome to the Hospital management system!</h1>
+
+  <!-- login -->
+  <hr align="left" width="1520" size="5" color="#0000AA" />
+  <h1>Patients</h1>
+  <a href="/patient">
+    <input
+      type="submit"
+      value="Make an appointment"
+      style="
+        height: 40px;
+        width: 240px;
+        display: inline-block;
+        text-align: center;
+      "
+    />
+  </a>
+
+  <!-- register -->
+  <h1>Administer</h1>
+  <a href="/login">
+    <input
+      type="submit"
+      value="Log in"
+      style="
+        height: 40px;
+        width: 240px;
+        display: inline-block;
+        text-align: center;
+      "
+    />
+  </a>
+  <hr align="left" width="1520" size="5" color="#0000AA" />
+  <p style="font-size: small">
+    <a href="/register">no account? register here</a>
+  </p>
+
+  {% endblock %}
+</div>
