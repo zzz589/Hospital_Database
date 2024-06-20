@@ -7,7 +7,7 @@
 - 数据库：PostgreSQL `<br>`
 - 操作系统：mac
 
-运行方式
+## 运行方式
 
 解压后在当前目录下执行命令
 
@@ -30,3 +30,8 @@ docker 运行
 容器运行后使用宿主机访问http://127.0.0.1:5001即可
 
 docker-compose 会让数据库自动初始化,创建好对应的表,数据将持久化储存
+
+## 测试方法
+使用终端`docker ps`列出当前运行的容器,获取python容器的id
+使用`docker exec -it id bash`打开容器的终端
+最后使用`python3 gerenate.py`就可以往数据库中填充基本数据用来测试
