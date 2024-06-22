@@ -12,7 +12,7 @@ import random
 # database  数据库名称
 
 class SQL_Server():
-	def __init__(self, host='db', user='postgres', password='123456', database='hospital', autocommit=True):
+	def __init__(self, host='localhost', user='postgres', password='12345', database='hospital', autocommit=True):
 		self.host = host
 		self.user = user
 		self.password = password
@@ -67,7 +67,9 @@ class SQL_Server():
 		return False
 
 	def getAttributeListOfTable(self, table):
+		print("table: ", table)
 		index = getIndex(table, self.tableList)
+		print("index: ", index)
 		return self.attributeList[index]
 
 	def getAttributeListForSelectShow(self, table, attribute):
@@ -75,7 +77,7 @@ class SQL_Server():
 			return self.getAttributeListOfTable(table)
 		return [attribute]
 
-	def selectFromTable(self, table, attribute):
+	def selectFromTable(self, table, selected_option, attribute):
 		# update table and attribute
 		self.getTAList()
 
@@ -84,9 +86,22 @@ class SQL_Server():
 		cursor = conn.cursor()
 		try:
 			if table == 'MAKE' or table == 'ASSEMBLE':
-				cursor.execute('SELECT ' + attribute + ' FROM ' + table + ' order by date desc')
+				if selected_option != ' ' and attribute != ' ':
+					str = 'SELECT ' + '*' + ' FROM ' + table + ' Where ' + selected_option + '=' + '\'' + attribute + '\''
+				elif selected_option == ' ' and attribute != ' ':
+					str = 'SELECT ' + selected_option + ' FROM ' + table
+				else:
+					str = 'SELECT ' + '*' + ' FROM ' + table
+				cursor.execute(str)
 			else:
-				cursor.execute('SELECT ' + attribute + ' FROM ' + table)
+				if selected_option != ' ' and attribute != ' ':
+					str = 'SELECT ' + '*' + ' FROM ' + table + ' Where ' + selected_option + '=' + '\'' + attribute + '\''
+				elif selected_option == ' ' and attribute != ' ':
+					str = 'SELECT ' + selected_option + ' FROM ' + table
+				else:
+					str = 'SELECT ' + '*' + ' FROM ' + table
+				print("str=",str)
+				cursor.execute(str)
 			results = cursor.fetchall()
 			return results
 		except Exception as e:
@@ -111,10 +126,10 @@ class SQL_Server():
 			cursor.execute('INSERT INTO ' + table + ' VALUES ' + statement)
 			conn.commit()  # 提交事务
 		except Exception as e:
-			print ('Something error')
+			print('Something error')
 			return 'Failed'
 		else:
-			print ('Succeed')
+			print('Succeed')
 			return 'Succeeded'
 		finally:
 			cursor.close()
@@ -130,6 +145,7 @@ class SQL_Server():
 		conn = self.connection()
 		cursor = conn.cursor()
 		try:
+			print('DELETE FROM ' + table + ' WHERE ' + statement)
 			cursor.execute('DELETE FROM ' + table + ' WHERE ' + statement)
 			conn.commit()  # 提交事务
 		except Exception as e:
@@ -165,7 +181,7 @@ class SQL_Server():
 	def generate_id(self, table, attribute):
 		while True:
 			id = str(random.randint(1000, 9999))  # Generate a random number between 1000 and 9999
-			results = self.selectFromTable(table, attribute)
+			results = self.selectFromTable(table, attribute, ' ')
 			if id not in [result[0] for result in results]:
 				break
 		return id
@@ -177,6 +193,7 @@ class SQL_Server():
 		#cursor.execute("SELECT Name FROM SysObjects WHERE XType='U' ORDER BY Name")
 		cursor.execute("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'")
 		self.tableList = cursor.fetchall()
+		print("len: ", len(self.tableList))
 		for i in range(len(self.tableList)):
 			self.tableList[i] = self.tableList[i][0]
 		cursor.close()
